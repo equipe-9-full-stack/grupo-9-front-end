@@ -1,9 +1,72 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../services/api";
 
 export default function CadastrePage() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfirmar, setShowConfirmar] = useState(false);
+  
+  const [nome, setNome] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+   
+
+
+  
+
+  const createCadastro = async () => {
+  try {
+    const response = await api.post("/usuarios", {
+      nome: nome,
+      username: username,
+      email: email,
+      senha_hash: senha,
+    });
+
+    console.log("Cadastro criado:", response.data);
+  } catch (error) {
+    console.error("Erro ao criar cadastro:", error);
+  }
+};
+
+  const updateCadastro = async (id: number) => {
+    try {
+      const response = await api.put(`/usuarios/${id}`, {
+        nome: nome,
+        username: username,
+        email: email,
+        senha_hash: senha
+      });
+      setCadastros(cadastros.map((cadastro) => (cadastro.id === id ? response.data : cadastro)));
+    } catch (error) {
+      console.error("Erro ao atualizar cadastro:", error);
+    }
+  };
+
+  const deleteCadastro = async (id: number) => {
+    try {
+      await api.delete(`/usuarios/${id}`);
+      setCadastros(cadastros.filter((c) => c.id !== id));
+    } catch (error) {
+      console.error("Erro ao excluir cadastro:", error);
+    }
+  };
+
+  const toggleCadastro = async (id: number) => {
+    const cadastro = cadastros.find((c) => c.id === id);
+    if (!cadastro) return;
+
+    try {
+      const response = await api.patch(`/usuarios/${id}`, {
+        ...cadastro,
+        done: !cadastro.done,
+      });
+      setCadastros(cadastros.map((c) => (c.id === id ? response.data : c)));
+    } catch (error) {
+      console.error("Erro ao alternar cadastro:", error);
+    }
+  };
 
   return (
     <div
@@ -55,6 +118,8 @@ export default function CadastrePage() {
             <input
               type="text"
               placeholder="Nome Completo"
+              value={nome}
+  onChange={(e) => setNome(e.target.value)}
               style={{
                 backgroundColor: "#f0ede3",
                 border: "none",
@@ -71,6 +136,8 @@ export default function CadastrePage() {
             <input
               type="text"
               placeholder="Username"
+              value={username}
+  onChange={(e) => setUsername(e.target.value)}
               style={{
                 backgroundColor: "#f0ede3",
                 border: "none",
@@ -87,6 +154,8 @@ export default function CadastrePage() {
             <input
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               style={{
                 backgroundColor: "#f0ede3",
                 border: "none",
@@ -105,6 +174,8 @@ export default function CadastrePage() {
               <input
                 type={showSenha ? "text" : "password"}
                 placeholder="Senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
                 style={{
                   backgroundColor: "#f0ede3",
                   border: "none",
@@ -198,6 +269,7 @@ export default function CadastrePage() {
           </div>
 
           <button
+            onClick={createCadastro}
             style={{
               marginTop: "24px",
               width: "100%",
@@ -216,7 +288,7 @@ export default function CadastrePage() {
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#6d28d9")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#7c3aed")}
           >
-            ENTRAR
+            CADASTRAR
           </button>
 
           <p
