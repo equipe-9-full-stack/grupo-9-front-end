@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useState } from "react";
 
 export default function CadastrePage() {
   const [showSenha, setShowSenha] = useState(false);
@@ -11,10 +11,6 @@ export default function CadastrePage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
    
-
-
-  
-
   const createCadastro = async () => {
   try {
     const response = await api.post("/usuarios", {
@@ -29,44 +25,6 @@ export default function CadastrePage() {
     console.error("Erro ao criar cadastro:", error);
   }
 };
-
-  const updateCadastro = async (id: number) => {
-    try {
-      const response = await api.put(`/usuarios/${id}`, {
-        nome: nome,
-        username: username,
-        email: email,
-        senha_hash: senha
-      });
-      setCadastros(cadastros.map((cadastro) => (cadastro.id === id ? response.data : cadastro)));
-    } catch (error) {
-      console.error("Erro ao atualizar cadastro:", error);
-    }
-  };
-
-  const deleteCadastro = async (id: number) => {
-    try {
-      await api.delete(`/usuarios/${id}`);
-      setCadastros(cadastros.filter((c) => c.id !== id));
-    } catch (error) {
-      console.error("Erro ao excluir cadastro:", error);
-    }
-  };
-
-  const toggleCadastro = async (id: number) => {
-    const cadastro = cadastros.find((c) => c.id === id);
-    if (!cadastro) return;
-
-    try {
-      const response = await api.patch(`/usuarios/${id}`, {
-        ...cadastro,
-        done: !cadastro.done,
-      });
-      setCadastros(cadastros.map((c) => (c.id === id ? response.data : c)));
-    } catch (error) {
-      console.error("Erro ao alternar cadastro:", error);
-    }
-  };
 
   return (
     <div
@@ -326,9 +284,9 @@ export default function CadastrePage() {
 
           {/* Mascote  */}
           <img
-            src="/mascote.png"
+            src="/Mascote.png"
             alt="Mascote Stock.io"
-            style={{ width: "900px", objectFit: "contain" }}
+            style={{ width: "250px", objectFit: "contain" }}
           />
         </div>
       </div>
