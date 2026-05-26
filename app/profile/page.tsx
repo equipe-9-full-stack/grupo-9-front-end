@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import ModaisProfile from '@/componentes/ModaisProfile';
+import ModalEditarPerfil from '@/componentes/ModalEditarPerfil';
+import ModalAlterarSenha from '@/componentes/ModalAlterarSenha';
 
 export default function ProfilePage() {
   const [modalSenhaAberto, setModalSenhaAberto] = useState(false);
@@ -27,15 +28,20 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      {(modalSenhaAberto || modalPerfilAberto) && (
+      {modalPerfilAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <ModaisProfile 
-            isOpenModalSenha={modalSenhaAberto}
-            isOpenModalPerfil={modalPerfilAberto}
-            onClose={() => {
-              setModalSenhaAberto(false);
-              setModalPerfilAberto(false);
-            }}
+          <ModalEditarPerfil 
+            isOpen={modalPerfilAberto} 
+            onClose={() => setModalPerfilAberto(false)} 
+          />
+        </div>
+      )}
+
+      {modalSenhaAberto && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <ModalAlterarSenha 
+            isOpen={modalSenhaAberto} 
+            onClose={() => setModalSenhaAberto(false)} 
           />
         </div>
       )}
