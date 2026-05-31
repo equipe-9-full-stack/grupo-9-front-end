@@ -12,18 +12,19 @@ export default function LoginPage() {
     setErro("");
 
     try {
-      const resposta = await fetch("http://localhost:3333/auth/login", {
+      const resposta = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email, senha: senha }),
+        body: JSON.stringify({ email: email, password: senha }),
       });
 
       if (resposta.ok) {
         const dados = await resposta.json();
         localStorage.setItem("meu_token", dados.access_token);
         alert("Login realizado com sucesso! 🎉");
+        localStorage.setItem("user", JSON.stringify(dados.user));
         window.location.href = "/"; // Redireciona para a Home após logar!
       } else {
         setErro("E-mail ou senha incorretos.");

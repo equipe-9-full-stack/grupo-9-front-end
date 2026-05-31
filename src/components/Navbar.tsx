@@ -39,11 +39,11 @@ export default function Navbar() {
           /* ----- USUÁRIO LOGADO ----- */
           <>
             {/* Ícone de Usuário (Hover Roxo) */}
-            <button className="text-white hover:text-[#6A38F3] transition-colors duration-300">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
-              </svg>
-            </button>
+            <a href="/perfil" className="text-white hover:text-[#6A38F3] transition-colors duration-300">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+    <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+  </svg>
+</a>
 
             {/* Ícone de Sair (Hover Vermelho) */}
             <button 
@@ -69,7 +69,7 @@ export default function Navbar() {
 
             {/* Botão CADASTRE-SE (Fundo Roxo -> Fundo Branco no Hover) */}
             <a 
-              href="/cadastrar" 
+              href="/cadastro" 
               className="bg-[#6A38F3] text-[#FFFFFF] hover:bg-[#FFFFFF] hover:text-[#6A38F3] px-8 py-3 rounded-full font-bold text-[15px] tracking-wider transition-all duration-300"
             >
               CADASTRE-SE
