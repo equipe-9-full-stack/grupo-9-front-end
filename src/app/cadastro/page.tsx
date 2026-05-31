@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import api from "../../app/services/api";
 
 export default function CadastrePage() {
   const [showSenha, setShowSenha] = useState(false);
@@ -78,6 +78,7 @@ export default function CadastrePage() {
         justifyContent: "center",
         fontFamily: "'Arial Black', Arial, sans-serif",
         padding: "24px",
+        overflow: "hidden",
       }}
     >
       <div
@@ -319,16 +320,21 @@ export default function CadastrePage() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "20px",
+            justifyContent: "space-between",
+            height: "520px",
             flexShrink: 0,
           }}
         >
 
           {/* Mascote  */}
+           <img
+          src = "/LOGOStock.io.png"
+          style={{ width: "230px", objectFit: "contain" , marginTop: "-80px"}}
+          />
           <img
-            src="/mascote.png"
+            src="/Mascote.png"
             alt="Mascote Stock.io"
-            style={{ width: "900px", objectFit: "contain" }}
+            style={{ width: "300px", objectFit: "contain" }}
           />
         </div>
       </div>
