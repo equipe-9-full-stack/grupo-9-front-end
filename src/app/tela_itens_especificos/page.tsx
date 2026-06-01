@@ -5,103 +5,104 @@ import { ChevronDown } from "lucide-react";
 import Navbar from "@/src/components/Navbar";
 import CardProduto from "@/src/components/CardProduto";
 
-// ─── DADOS MOCKADOS (substituir por fetch do banco futuramente) ───────────────
-
 const ALL_PRODUCTS = [
   { name: "Notebook Lenovo IdeaPad Slim 3", price: "R$3.899,99", status: "DISPONÍVEL"   as const, img: "/NotebookLenovo.jpg" },
   { name: "Samsung Galaxy Book4",           price: "R$8.549,99", status: "INDISPONÍVEL" as const, img: "/GalaxyBook.png" },
   { name: "Apple iPhone 15",               price: "R$4.769,10", status: "DISPONÍVEL"   as const, img: "/Iphone15.jpeg" },
   { name: "Smart TV Philips 50'' 4K",      price: "R$1.229,00", status: "DISPONÍVEL"   as const, img: "/SmartTVPhillips.jpg" },
   { name: "Xbox Series X",                 price: "R$3.599,99", status: "DISPONÍVEL"   as const, img: "/XboxSeries.jpeg" },
-  { name: "Macbook Air",                   price: "R$15.899,99", status: "DISPONÍVEL"  as const, img: "/MacbookAir.jpg" },
-  { name: "iPhone 16",                     price: "R$4.598,99", status: "INDISPONÍVEL" as const, img: "/Iphone16.jpeg" },
-  { name: "S25 Ultra",                     price: "R$5.769,10", status: "DISPONÍVEL"   as const, img: "/S25Ultra.jpeg" },
-  { name: "iPad",                          price: "R$7.859,00", status: "DISPONÍVEL"   as const, img: "/Ipad.jpeg" },
-  { name: "Headset Gamer",                 price: "R$899,99",   status: "INDISPONÍVEL" as const, img: "/HeadsetGamer.jpeg" },
+  { name: "Macbook Air",                   price: "R$15.899,99", status: "DISPONÍVEL"  as const, img: "/MacbookAir.png" },
+  { name: "iPhone 16",                     price: "R$4.598,99", status: "INDISPONÍVEL" as const, img: "/Iphone16.png" },
+  { name: "S25 Ultra",                     price: "R$5.769,10", status: "DISPONÍVEL"   as const, img: "/S25Ultra.png" },
+  { name: "iPad",                          price: "R$7.859,00", status: "DISPONÍVEL"   as const, img: "/Ipad.png" },
+  { name: "Headset Gamer",                 price: "R$899,99",   status: "INDISPONÍVEL" as const, img: "/HeadsetGamer.png" },
   { name: "Comp. Lenovo",                  price: "R$649,99",   status: "INDISPONÍVEL" as const, img: "/CompLenovo.jpeg" },
   { name: "Nintendo Switch 2",             price: "R$4.799,99", status: "INDISPONÍVEL" as const, img: "/NintendoSwitch.jpeg" },
-  { name: "iPhone 15",                     price: "R$4.089,10", status: "DISPONÍVEL"   as const, img: "/Iphone15b.jpeg" },
+  { name: "iPhone 15",                     price: "R$4.089,10", status: "DISPONÍVEL"   as const, img: "/Iphone15b.png" },
   { name: "JBL",                           price: "R$1.399,00", status: "DISPONÍVEL"   as const, img: "/JBL.jpeg" },
   { name: "Xbox Series S",                 price: "R$1.499,99", status: "DISPONÍVEL"   as const, img: "/XboxSeriesS.jpeg" },
 ];
 
 const LOJAS = [
-  { name: "Kabum",   img: "/lojaKabum.png" },
-  { name: "Pichau",  img: "/lojaPichau.png" },
-  { name: "Cellar",  img: "/lojaCellar.png" },
-  { name: "Speed",   img: "/lojaSpeed.png" },
-  { name: "Nvidia",  img: "/lojaNvidia.png" },
-  { name: "Kabum",   img: "/lojaKabum.png" },
-  { name: "Pichau",  img: "/lojaPichau.png" },
+  { name: "abtec",         categoria: "eletrônicos", img: "/lojaAbtec.png" },
+  { name: "Repiit",        categoria: "eletrônicos", img: "/lojaRepiit.png" },
+  { name: "Bersay",        categoria: "eletrônicos", img: "/lojaBersay.png" },
+  { name: "electree",      categoria: "eletrônicos", img: "/lojaElectree.png" },
+  { name: "Speed X",       categoria: "eletrônicos", img: "/lojaSpeedX.png" },
+  { name: "Next Computer", categoria: "eletrônicos", img: "/lojaNextComputer.png" },
+   { name: "Oh My!",         categoria: "eletrônicos", img: "/lojaAbtec.png" },
+   { name: "Lexut",        categoria: "eletrônicos", img: "/lojaRepiit.png" },
 ];
 
-// Mais populares = 5 primeiros / Recém adicionados = 5 últimos
-const MAIS_POPULARES  = ALL_PRODUCTS.slice(0, 5);
+const MAIS_POPULARES    = ALL_PRODUCTS.slice(0, 5);
 const RECEM_ADICIONADOS = ALL_PRODUCTS.slice(-5);
-
 const CATEGORIES = ["Celulares", "Notebooks", "TVs", "Acessórios", "Outros"];
 const PER_PAGE = 5;
 
-
+// ─── CARROSSEL ────────────────────────────────────────────────────────────────
 function CarrosselLojas() {
   const ref = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
+  const dragging = useRef(false);
+  const startX  = useRef(0);
+  const scrollL  = useRef(0);
 
   const onMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX - (ref.current?.offsetLeft ?? 0);
-    scrollLeft.current = ref.current?.scrollLeft ?? 0;
+    dragging.current = true;
+    startX.current   = e.clientX;
+    scrollL.current  = ref.current?.scrollLeft ?? 0;
+    if (ref.current) ref.current.style.cursor = "grabbing";
   };
-
   const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !ref.current) return;
+    if (!dragging.current || !ref.current) return;
     e.preventDefault();
-    const x = e.pageX - ref.current.offsetLeft;
-    ref.current.scrollLeft = scrollLeft.current - (x - startX.current);
+    ref.current.scrollLeft = scrollL.current - (e.clientX - startX.current);
   };
-
-  const stopDrag = () => { isDragging.current = false; };
+  const stopDrag = () => {
+    dragging.current = false;
+    if (ref.current) ref.current.style.cursor = "grab";
+  };
 
   return (
-    <div
-      ref={ref}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={stopDrag}
-      onMouseLeave={stopDrag}
-      style={{
-        display: "flex",
-        gap: "16px",
-        overflowX: "auto",
-        cursor: "grab",
-        scrollbarWidth: "none",
-        userSelect: "none",
-        padding: "8px 0",
-      }}
-    >
-      {LOJAS.map((loja, i) => (
-        <div key={i} style={{
-          flexShrink: 0,
-          backgroundColor: "#fff",
-          borderRadius: "20px",
-          padding: "20px 32px",
+    <div style={{ backgroundColor: "#1a1a1a", padding: "48px 48px" }}>
+      <h2 style={{ color: "#fff", fontSize: "28px", fontWeight: 900, marginBottom: "40px" }}>
+        Principais Lojas
+      </h2>
+      <div
+        ref={ref}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={stopDrag}
+        onMouseLeave={stopDrag}
+        style={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minWidth: "140px",
-          height: "80px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-        }}>
-          <img src={loja.img} alt={loja.name} style={{ maxHeight: "40px", objectFit: "contain" }} />
-        </div>
-      ))}
+          gap: "48px",
+          overflowX: "scroll",
+          cursor: "grab",
+          scrollbarWidth: "none",
+          userSelect: "none",
+          paddingBottom: "8px",
+        }}
+      >
+        {LOJAS.map((loja, i) => (
+          <div key={i} style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+            <div style={{
+              width: "130px", height: "130px",
+              borderRadius: "50%",
+              backgroundColor: "#fff",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <img src={loja.img} alt={loja.name} style={{ maxWidth: "80px", maxHeight: "80px", objectFit: "contain" }} />
+            </div>
+            <span style={{ color: "#fff", fontWeight: 700, fontSize: "15px" }}>{loja.name}</span>
+            <span style={{ color: "#6600FF", fontSize: "13px", fontWeight: 600 }}>{loja.categoria}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-
+// ─── SEÇÃO DE PRODUTOS ────────────────────────────────────────────────────────
 function SecaoProdutos({ titulo, produtos }: { titulo: string; produtos: typeof ALL_PRODUCTS }) {
   return (
     <div style={{ marginBottom: "48px" }}>
@@ -117,11 +118,11 @@ function SecaoProdutos({ titulo, produtos }: { titulo: string; produtos: typeof 
   );
 }
 
-
+// ─── PÁGINA ───────────────────────────────────────────────────────────────────
 export default function StockIOHome() {
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(ALL_PRODUCTS.length / PER_PAGE);
-  const paginated = ALL_PRODUCTS.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+  const paginated  = ALL_PRODUCTS.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   return (
     <div className="min-h-screen bg-[#F9F7E8] font-sans text-black pb-20">
@@ -158,6 +159,7 @@ export default function StockIOHome() {
         </div>
       </div>
 
+      {/* CONTEÚDO COM CONTAINER */}
       <div className="max-w-7xl mx-auto px-6">
 
         {/* CATEGORIAS */}
@@ -172,7 +174,7 @@ export default function StockIOHome() {
           </button>
         </div>
 
-        {/* TODOS OS PRODUTOS (paginado) */}
+        {/* PRODUTOS PAGINADOS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-8">
           {paginated.map((prod, i) => (
             <CardProduto key={i} {...prod} />
@@ -197,21 +199,17 @@ export default function StockIOHome() {
           </button>
         </div>
 
-        {/* PRINCIPAIS LOJAS */}
-        <div style={{ marginBottom: "48px" }}>
-          <h2 style={{ fontSize: "22px", fontWeight: 900, marginBottom: "24px", color: "#1a1a1a" }}>
-            Principais Lojas
-          </h2>
-          <CarrosselLojas />
-        </div>
+      </div>{/* fim max-w-7xl */}
 
-        {/* MAIS POPULARES */}
+      {/* CARROSSEL — fora do container para ocupar largura total */}
+      <CarrosselLojas />
+
+      {/* MAIS POPULARES E RECÉM ADICIONADOS */}
+      <div className="max-w-7xl mx-auto px-6 mt-12">
         <SecaoProdutos titulo="Mais populares" produtos={MAIS_POPULARES} />
-
-        {/* RECÉM ADICIONADOS */}
         <SecaoProdutos titulo="Recém adicionados" produtos={RECEM_ADICIONADOS} />
-
       </div>
+
     </div>
   );
 }
