@@ -1,70 +1,27 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../../app/services/api";
 
 export default function CadastrePage() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfirmar, setShowConfirmar] = useState(false);
-  
+
   const [nome, setNome] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-   
-
-
-  
 
   const createCadastro = async () => {
-  try {
-    const response = await api.post("/usuarios", {
-      nome: nome,
-      username: username,
-      email: email,
-      senha_hash: senha,
-    });
-
-    console.log("Cadastro criado:", response.data);
-  } catch (error) {
-    console.error("Erro ao criar cadastro:", error);
-  }
-};
-
-  const updateCadastro = async (id: number) => {
     try {
-      const response = await api.put(`/usuarios/${id}`, {
+      const response = await api.post("/usuarios", {
         nome: nome,
         username: username,
         email: email,
-        senha_hash: senha
+        senha_hash: senha,
       });
-      setCadastros(cadastros.map((cadastro) => (cadastro.id === id ? response.data : cadastro)));
+      console.log("Cadastro criado:", response.data);
     } catch (error) {
-      console.error("Erro ao atualizar cadastro:", error);
-    }
-  };
-
-  const deleteCadastro = async (id: number) => {
-    try {
-      await api.delete(`/usuarios/${id}`);
-      setCadastros(cadastros.filter((c) => c.id !== id));
-    } catch (error) {
-      console.error("Erro ao excluir cadastro:", error);
-    }
-  };
-
-  const toggleCadastro = async (id: number) => {
-    const cadastro = cadastros.find((c) => c.id === id);
-    if (!cadastro) return;
-
-    try {
-      const response = await api.patch(`/usuarios/${id}`, {
-        ...cadastro,
-        done: !cadastro.done,
-      });
-      setCadastros(cadastros.map((c) => (c.id === id ? response.data : c)));
-    } catch (error) {
-      console.error("Erro ao alternar cadastro:", error);
+      console.error("Erro ao criar cadastro:", error);
     }
   };
 
@@ -120,7 +77,7 @@ export default function CadastrePage() {
               type="text"
               placeholder="Nome Completo"
               value={nome}
-  onChange={(e) => setNome(e.target.value)}
+              onChange={(e) => setNome(e.target.value)}
               style={{
                 backgroundColor: "#f0ede3",
                 border: "none",
@@ -138,7 +95,7 @@ export default function CadastrePage() {
               type="text"
               placeholder="Username"
               value={username}
-  onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               style={{
                 backgroundColor: "#f0ede3",
                 border: "none",
@@ -226,7 +183,7 @@ export default function CadastrePage() {
                 type={showConfirmar ? "text" : "password"}
                 placeholder="Confirmar Senha"
                 style={{
-                  backgroundColor: "#e8e4d9",
+                  backgroundColor: "#f0ede3",
                   border: "none",
                   borderRadius: "999px",
                   padding: "14px 44px 14px 20px",
@@ -275,7 +232,7 @@ export default function CadastrePage() {
               marginTop: "24px",
               width: "100%",
               backgroundColor: "#7c3aed",
-              color: "#bbb6b6",
+              color: "#fff",
               border: "none",
               borderRadius: "999px",
               padding: "16px",
@@ -301,14 +258,7 @@ export default function CadastrePage() {
             }}
           >
             Já possui uma conta?{" "}
-            <a
-              href="/login"
-              style={{
-                color: "#7c3aed",
-                fontWeight: 700,
-                textDecoration: "none",
-              }}
-            >
+            <a href="/login" style={{ color: "#7c3aed", fontWeight: 700, textDecoration: "none" }}>
               Login
             </a>
           </p>
@@ -325,11 +275,10 @@ export default function CadastrePage() {
             flexShrink: 0,
           }}
         >
-
-          {/* Mascote  */}
-           <img
-          src = "/LOGOStock.io.png"
-          style={{ width: "230px", objectFit: "contain" , marginTop: "-80px"}}
+          <img
+            src="/LOGOStock.io.png"
+            alt="Logo Stock.io"
+            style={{ width: "230px", objectFit: "contain", marginTop: "-80px" }}
           />
           <img
             src="/Mascote.png"
