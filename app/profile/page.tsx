@@ -79,27 +79,11 @@ export default function ProfilePage() {
           </div>
         </header>
 
-        <div className="max-w-7xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 items-center pt-10 relative z-10">
+        <div className="max-w-7xl w-full mx-auto flex items-center pt-10 relative z-10">
           <div>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight max-w-md">
               Do <span className="font-black">CAOS</span> à organização, em alguns cliques
             </h1>
-          </div>
-          
-          <div className="hidden md:flex justify-end items-end h-full relative min-h-[240px]">
-            <div className="relative bottom-0 right-10 flex items-end translate-y-4">
-              <div className="w-40 h-40 bg-[#D1FF25] rounded-full relative flex items-center justify-center border-4 border-black">
-                <div className="absolute -top-3 w-44 h-16 bg-[#5D2CFF] rounded-t-full" />
-                <div className="flex flex-col items-center space-y-2 relative z-10 pt-4">
-                  <div className="flex gap-6">
-                    <div className="w-2.5 h-2.5 bg-black rounded-full" />
-                    <div className="w-2.5 h-2.5 bg-black rounded-full" />
-                  </div>
-                  <div className="w-6 h-3 border-b-4 border-black rounded-b-full" />
-                </div>
-              </div>
-              <div className="w-24 h-24 bg-[#5D2CFF] border-2 border-white rounded-md shadow-lg flex items-center justify-center text-white font-bold ml-[-20px] mb-2 transform rotate-3">📦</div>
-            </div>
           </div>
         </div>
       </section>
