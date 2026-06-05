@@ -35,13 +35,12 @@ export default function Carrossel({ titulo, subtituloLink, itens, tipo = 'produt
             className="snap-start shrink-0 transition-transform duration-200 hover:scale-[1.02]"
           >
             {tipo === 'produto' ? (
-              /* CARD DE PRODUTO */
               <div className="bg-white rounded-3xl p-4 w-48 shadow-sm flex flex-col justify-between border border-gray-100 h-72">
-                <div className="relative bg-gray-50 rounded-2xl p-2 flex items-center justify-center h-36">
+                <div className="relative bg-gray-50 rounded-2xl flex items-center justify-center h-36 overflow-hidden">
                   {item.logoLoja && (
-                    <img src={item.logoLoja} alt="Loja" className="absolute top-2 right-2 w-7 h-7 rounded-full object-contain" />
+                    <img src={item.logoLoja} alt="Loja" className="absolute top-2 right-2 w-7 h-7 rounded-full object-contain z-10" />
                   )}
-                  <img src={item.imagem} alt={item.nome} className="max-h-full max-w-full object-contain" />
+                  <img src={item.imagem} alt={item.nome} className="w-full h-full object-cover" />
                 </div>
                 <div className="mt-3">
                   <h3 className="font-semibold text-gray-800 text-sm line-clamp-2">{item.nome}</h3>
@@ -54,10 +53,9 @@ export default function Carrossel({ titulo, subtituloLink, itens, tipo = 'produt
                 </div>
               </div>
             ) : (
-              /* CARD DE LOJA (CÍRCULO) */
               <div className="flex flex-col items-center w-28 text-center cursor-pointer">
-                <div className="w-20 h-20 bg-white rounded-full p-2 shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden">
-                  <img src={item.imagem} alt={item.nome} className="max-w-full max-h-full object-contain" />
+                <div className="w-20 h-20 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden">
+                  <img src={item.imagem} alt={item.nome} className="w-full h-full object-cover" />
                 </div>
                 <span className="text-sm font-semibold text-gray-800 mt-2">{item.nome}</span>
                 <span className="text-xs text-purple-500 font-medium">{item.subtitulo}</span>
