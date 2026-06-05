@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { 
-  Search, 
   ShoppingBag, 
   PlusCircle, 
   Sparkles, 
@@ -33,7 +32,7 @@ export default function ProfilePage() {
     { id: 2, nome: "Brownie Trad.", subtitulo: "R$ 3,80", imagem: "/brownie.png", status: "INDISPONÍVEL" as const, logoLoja: "/cjr.png" }, 
     { id: 3, nome: "Nozes", subtitulo: "R$ 29,99 /kg", imagem: "/nozes.png", status: "DISPONÍVEL" as const, logoLoja: "" },
     { id: 4, nome: "Banana", subtitulo: "R$ 3,99 /kg", imagem: "/banana.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 5, nome: "Limão Siciliano", subtitulo: "R$ 17,99 /kg", imagem: "/limador.png", status: "INDISPONÍVEL" as const, logoLoja: "" }, 
+    { id: 5, nome: "Limão Siciliano", subtitulo: "R$ 17,99 /kg", imagem: "/limao.png", status: "INDISPONÍVEL" as const, logoLoja: "" }, 
   ]);
 
   const [maisBaratos] = useState([
@@ -65,36 +64,25 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-[#FDFBF2] text-zinc-800 font-sans antialiased">
       <Navbar />
 
-      <section className="bg-black text-white px-6 md:px-16 pt-16 pb-16 relative overflow-hidden min-h-[340px] flex items-center">
+      <section className="bg-black text-white px-6 md:px-16 pt-16 pb-0 relative overflow-hidden min-h-[340px] flex items-center">
         <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight max-w-xl">
-              Do <span className="text-white">CAOS</span> à organization,<br />em alguns cliques
+            <h1 className="text-5xl md:text-6xl font-black tracking-wider leading-tight max-w-xl uppercase">
+              Do <span className="text-white">CAOS</span> à organização,<br />em alguns cliques
             </h1>
           </div>
 
-          <div className="relative w-full md:w-1/2 flex justify-center md:justify-end h-64 md:h-80 mt-6 md:mt-0">
+          <div className="relative w-full md:w-1/2 flex justify-center md:justify-end h-80 md:h-[380px] mt-6 md:mt-0 items-end">
             <img 
               src="/mascote.png" 
               alt="Ilustração Stock.io" 
-              className="object-contain h-full"
+              className="object-contain h-full block alignment-baseline"
             />
           </div>
         </div>
       </section>
 
-      <div className="w-full flex justify-center -mt-7 mb-10 relative z-20 px-6">
-        <div className="relative w-full max-w-2xl shadow-md rounded-full">
-          <input 
-            type="text" 
-            placeholder="Procurar por..." 
-            className="w-full bg-white pl-6 pr-12 py-4 rounded-full border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-[#5D2CFF] text-sm text-zinc-600 placeholder-zinc-300" 
-          />
-          <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-300 w-5 h-5" />
-        </div>
-      </div>
-
-      <main className="max-w-7xl mx-auto pb-16">
+      <main className="max-w-7xl mx-auto pt-12 pb-16">
         <section className="mb-12 px-4 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold mb-5 tracking-tight text-zinc-900">Categoria</h2>
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4">
