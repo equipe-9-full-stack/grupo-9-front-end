@@ -25,7 +25,7 @@ export default function Navbar() {
       {/* LOGO DA ESQUERDA */}
       <a href="/" className="flex items-center cursor-pointer transition hover:opacity-80">
         <img 
-          src="/logo-branca.svg" 
+          src="/logo.svg" 
           alt="Stock.io Logo" 
           className="h-[48px] w-auto object-contain" 
         />
