@@ -67,7 +67,7 @@ export default function ProfilePage() {
       <section className="bg-black text-white px-6 md:px-16 pt-16 pb-0 relative overflow-hidden min-h-[340px] flex items-center">
         <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="text-center md:text-left">
-            <h1 className="text-5xl md:text-6xl font-black tracking-wider leading-tight max-w-xl uppercase">
+            <h1 className="text-5xl md:text-6xl font-black tracking-wider leading-tight max-w-xl">
               Do <span className="text-white">CAOS</span> à organização,<br />em alguns cliques
             </h1>
           </div>
