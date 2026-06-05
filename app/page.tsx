@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   ShoppingBag, 
   PlusCircle, 
@@ -27,38 +27,43 @@ const categories = [
 ];
 
 export default function ProfilePage() {
-  const [melhoresAvaliados] = useState([
-    { id: 1, nome: "Brownie Meio A.", subtitulo: "R$ 4,70", imagem: "/browniem.png", status: "DISPONÍVEL" as const, logoLoja: "/cjr.png" },
-    { id: 2, nome: "Brownie Trad.", subtitulo: "R$ 3,80", imagem: "/brownie.png", status: "INDISPONÍVEL" as const, logoLoja: "/cjr.png" }, 
-    { id: 3, nome: "Nozes", subtitulo: "R$ 29,99 /kg", imagem: "/nozes.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 4, nome: "Banana", subtitulo: "R$ 3,99 /kg", imagem: "/banana.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 5, nome: "Limão Siciliano", subtitulo: "R$ 17,99 /kg", imagem: "/limao.png", status: "INDISPONÍVEL" as const, logoLoja: "" }, 
-  ]);
+  const [melhoresAvaliados, setMelhoresAvaliados] = useState<any[]>([]);
+  const [maisBaratos, setMaisBaratos] = useState<any[]>([]);
+  const [recemAdicionados, setRecemAdicionados] = useState<any[]>([]);
+  const [lojas, setLojas] = useState<any[]>([]);
 
-  const [maisBaratos] = useState([
-    { id: 6, nome: "Limpador Facial", subtitulo: "R$ 74,99", imagem: "/limpador.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 7, nome: "Blush", subtitulo: "R$ 199,99", imagem: "/blush.png", status: "INDISPONÍVEL" as const, logoLoja: "/rare.png" },
-    { id: 8, nome: "Sérum Facial", subtitulo: "R$ 99,90", imagem: "/serum.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 9, nome: "Iluminador", subtitulo: "R$ 249,90", imagem: "/iluminador.png", status: "DISPONÍVEL" as const, logoLoja: "/rare.png" },
-    { id: 10, nome: "Body Splash", subtitulo: "R$ 179,99", imagem: "/body.png", status: "INDISPONÍVEL" as const, logoLoja: "" },
-  ]);
+  useEffect(() => {
+    fetch('http://localhost:3001/lojas')
+      .then((res) => res.json())
+      .then((data) => {
+        const lojasAdaptadas = data.map((loja: any) => ({
+          id: loja.id,
+          nome: loja.nome,
+          subtitulo: loja.categoria || "mercado",
+          imagem: loja.imagem || "/reno.png"
+        }));
+        setLojas(lojasAdaptadas);
+      })
+      .catch((err) => console.error(err));
 
-  const [recemAdicionados] = useState([
-    { id: 11, nome: "Saia", subtitulo: "R$ 75,99", imagem: "/saia.png", status: "DISPONÍVEL" as const, logoLoja: "/amoca.png" },
-    { id: 12, nome: "New Balance", subtitulo: "R$ 399,99", imagem: "/newbalance.png", status: "INDISPONÍVEL" as const, logoLoja: "" },
-    { id: 13, nome: "Bota", subtitulo: "R$ 115,90", imagem: "/bota.png", status: "DISPONÍVEL" as const, logoLoja: "" }, 
-    { id: 14, nome: "Bolsa", subtitulo: "R$ 349,90", imagem: "/bolsa.png", status: "DISPONÍVEL" as const, logoLoja: "" },
-    { id: 15, nome: "Calça Jeans", subtitulo: "R$ 159,99", imagem: "/calca.png", status: "INDISPONÍVEL" as const, logoLoja: "" },
-  ]);
+    fetch('http://localhost:3001/produtos')
+      .then((res) => res.json())
+      .then((data) => {
+        const produtosAdaptados = data.map((prod: any) => ({
+          id: prod.id,
+          nome: prod.nome,
+          subtitulo: `R$ ${prod.preco}`,
+          imagem: prod.imagem || "/brownie.png",
+          status: prod.disponivel ? "DISPONÍVEL" : "INDISPONÍVEL",
+          logoLoja: prod.lojaLogo || ""
+        }));
 
-  const [lojas] = useState([
-    { id: 1, nome: "CJR", subtitulo: "mercado", imagem: "/cjr.png" },
-    { id: 2, nome: "Rare Beauty", subtitulo: "beleza", imagem: "/rare.png" },
-    { id: 3, nome: "The Croc Brew", subtitulo: "mercado", imagem: "/croc.png" },
-    { id: 4, nome: "Mini Reno", subtitulo: "casa", imagem: "/reno.png" },
-    { id: 5, nome: "amoca", subtitulo: "moda", imagem: "/amoca.png" },
-    { id: 6, nome: "Repiit", subtitulo: "eletrônicos", imagem: "/repiit.png" },
-  ]);
+        setMelhoresAvaliados(produtosAdaptados);
+        setMaisBaratos([...produtosAdaptados].sort((a, b) => a.id - b.id));
+        setRecemAdicionados([...produtosAdaptados].reverse());
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FDFBF2] text-zinc-800 font-sans antialiased">
@@ -68,7 +73,7 @@ export default function ProfilePage() {
         <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="text-center md:text-left">
             <h1 className="text-5xl md:text-6xl font-black tracking-wider leading-tight max-w-2xl">
-              Do <span className="text-white">CAOS</span> à organização, em alguns cliques
+              Do <span className="text-white">CAOS</span> à organization, em alguns cliques
             </h1>
           </div>
 
@@ -110,6 +115,7 @@ export default function ProfilePage() {
             <option>filtros</option>
           </select>
         </div>
+        
         <Carrossel titulo="" itens={lojas} tipo="loja" />
       </main>
     </div>
