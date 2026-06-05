@@ -6,7 +6,10 @@ export default function Navbar() {
   const [estaLogado, setEstaLogado] = useState(false);
 
   useEffect(() => {
+<<<<<<< HEAD:componentes/Navbar.tsx
+=======
     // Procura o token para saber se exibe os botões de entrar ou os ícones de perfil
+>>>>>>> dev:src/components/Navbar.tsx
     const token = localStorage.getItem("meu_token");
     if (token) {
       setEstaLogado(true);
@@ -16,17 +19,29 @@ export default function Navbar() {
   const fazerLogout = () => {
     localStorage.removeItem("meu_token");
     setEstaLogado(false);
+<<<<<<< HEAD:componentes/Navbar.tsx
+    window.location.href = "/login"; 
+=======
     window.location.href = "/login"; // Redireciona o usuário de volta pro login
+>>>>>>> dev:src/components/Navbar.tsx
   };
 
   return (
     // Altura exata do Figma: h-[92px]
     <nav className="w-full h-[92px] bg-[#000000] px-8 md:px-16 flex items-center justify-between">
+<<<<<<< HEAD:componentes/Navbar.tsx
+
+      {/* LOGO DA ESQUERDA */}
+      <a href="/" className="flex items-center cursor-pointer transition hover:opacity-80">
+        <img 
+          src="/logo.png" 
+=======
       
       {/* LOGO DA ESQUERDA */}
       <a href="/" className="flex items-center cursor-pointer transition hover:opacity-80">
         <img 
           src="/logo-branca.svg" 
+>>>>>>> dev:src/components/Navbar.tsx
           alt="Stock.io Logo" 
           className="h-[48px] w-auto object-contain" 
         />
@@ -34,7 +49,11 @@ export default function Navbar() {
 
       {/* ÁREA DA DIREITA (Botões ou Ícones) */}
       <div className="flex items-center gap-8">
+<<<<<<< HEAD:componentes/Navbar.tsx
+
+=======
         
+>>>>>>> dev:src/components/Navbar.tsx
         {estaLogado ? (
           /* ----- USUÁRIO LOGADO ----- */
           <>
