@@ -33,55 +33,69 @@ export default function ProfilePage() {
   const [lojas, setLojas] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/lojas')
+    fetch('http://localhost:3000/lojas')
       .then((res) => res.json())
       .then((data) => {
-        const lojasAdaptadas = data.map((loja: any) => ({
-          id: loja.id,
-          nome: loja.nome,
-          subtitulo: loja.categoria || "mercado",
-          imagem: loja.imagem || "/reno.png"
-        }));
-        setLojas(lojasAdaptadas);
+        // Valida se o 'data' é uma lista antes de fazer o .map
+        if (Array.isArray(data)) {
+          const lojasAdaptadas = data.map((loja: any) => ({
+            id: loja.id,
+            nome: loja.nome,
+            subtitulo: loja.categoria || "mercado",
+            imagem: loja.imagem || "/reno.png"
+          }));
+          setLojas(lojasAdaptadas);
+        } else {
+          console.warn("A rota /lojas não retornou uma lista:", data);
+          setLojas([]);
+        }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Erro ao buscar lojas:", err));
 
-    fetch('http://localhost:3001/produtos')
+    fetch('http://localhost:3000/produtos')
       .then((res) => res.json())
       .then((data) => {
-        const produtosAdaptados = data.map((prod: any) => ({
-          id: prod.id,
-          nome: prod.nome,
-          subtitulo: `R$ ${prod.preco}`,
-          imagem: prod.imagem || "/brownie.png",
-          status: prod.disponivel ? "DISPONÍVEL" : "INDISPONÍVEL",
-          logoLoja: prod.lojaLogo || ""
-        }));
+        // Valida se o 'data' é uma lista antes de fazer o .map
+        if (Array.isArray(data)) {
+          const produtosAdaptados = data.map((prod: any) => ({
+            id: prod.id,
+            nome: prod.nome,
+            subtitulo: `R$ ${prod.preco}`,
+            imagem: prod.imagem || "/brownie.png",
+            status: prod.disponivel ? "DISPONÍVEL" : "INDISPONÍVEL",
+            logoLoja: prod.lojaLogo || ""
+          }));
 
-        setMelhoresAvaliados(produtosAdaptados);
-        setMaisBaratos([...produtosAdaptados].sort((a, b) => a.id - b.id));
-        setRecemAdicionados([...produtosAdaptados].reverse());
+          setMelhoresAvaliados(produtosAdaptados);
+          setMaisBaratos([...produtosAdaptados].sort((a, b) => a.id - b.id));
+          setRecemAdicionados([...produtosAdaptados].reverse());
+        } else {
+          console.warn("A rota /produtos não retornou uma lista:", data);
+          setMelhoresAvaliados([]);
+          setMaisBaratos([]);
+          setRecemAdicionados([]);
+        }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Erro ao buscar produtos:", err));
   }, []);
 
   return (
     <div className="min-h-screen bg-[#FDFBF2] text-zinc-800 font-sans antialiased">
       <Navbar />
 
-      <section className="bg-black text-white px-6 md:px-16 pt-16 pb-0 relative overflow-hidden min-h-[340px] flex items-center">
+      <section className="bg-black text-white px-6 md:px-16 pt-16 pb-0 relative overflow-hidden min-h-[380px] flex items-center">
         <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
           <div className="text-center md:text-left">
             <h1 className="text-5xl md:text-6xl font-black tracking-wider leading-tight max-w-2xl">
-              Do <span className="text-white">CAOS</span> à organization, em alguns cliques
+              Do <span className="text-white">CAOS</span> à organização,<br />em alguns cliques
             </h1>
           </div>
 
-          <div className="relative w-full md:w-1/2 flex justify-center md:justify-end h-80 md:h-[380px] mt-6 md:mt-0 items-end">
+          <div className="relative w-full md:w-1/2 flex justify-center md:justify-end h-96 md:h-[400px] mt-6 md:mt-0 items-end">
             <img 
               src="/mascote.png" 
               alt="Ilustração Stock.io" 
-              className="object-contain h-full block alignment-baseline"
+              className="object-contain h-full block alignment-baseline transform scale-110 origin-bottom transition-transform"
             />
           </div>
         </div>
