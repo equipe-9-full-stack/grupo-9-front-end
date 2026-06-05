@@ -1,82 +1,78 @@
 'use client';
 
-import { useState } from "react";
+import React from 'react';
 
 interface AddProdutoProps {
-  onAddProduct: (product: { name: string; badge: string; badgeColor: string }) => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function AddProduto({ onAddProduct }: AddProdutoProps) {
-  const [name, setName] = useState("");
-  const [badge, setBadge] = useState("");
-  const [badgeColor, setBadgeColor] = useState("bg-purple-900");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !badge) return;
-
-    onAddProduct({ name, badge, badgeColor });
-
-    setName("");
-    setBadge("");
-  };
+export default function AddProduto({ isOpen, onClose }: AddProdutoProps) {
+  if (!isOpen) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-xs font-bold text-zinc-500 mb-1 uppercase tracking-wider">
-          Nome do Produto
-        </label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Ex: Cookie de Baunilha"
-          className="w-full bg-[#FDFBF2] px-4 py-2 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5D2CFF]"
-          required
-        />
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      {/* Card do Modal */}
+      <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-xl relative animate-in fade-in zoom-in-95 duration-200">
+        
+        {/* Botão de fechar (X) */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-lg"
+        >
+          ✕
+        </button>
+
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Adicionar Novo Produto</h2>
+
+        {/* Formulário */}
+        <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Nome do Produto</label>
+            <input 
+              type="text" 
+              placeholder="Ex: Brownie de Pote" 
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Preço</label>
+            <input 
+              type="text" 
+              placeholder="R$ 0,00" 
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">URL da Imagem</label>
+            <input 
+              type="text" 
+              placeholder="https://..." 
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
+            />
+          </div>
+
+          {/* Botões de Ação */}
+          <div className="flex gap-3 mt-4">
+            <button 
+              type="button" 
+              onClick={onClose}
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl text-sm transition"
+            >
+              Cancelar
+            </button>
+            <button 
+              type="submit"
+              className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md shadow-purple-200"
+            >
+              Salvar Produto
+            </button>
+          </div>
+        </form>
+
       </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-xs font-bold text-zinc-500 mb-1 uppercase tracking-wider">
-            Sigla (Badge)
-          </label>
-          <input
-            type="text"
-            value={badge}
-            onChange={(e) => setBadge(e.target.value.toUpperCase())}
-            maxLength={5}
-            placeholder="Ex: CJR"
-            className="w-full bg-[#FDFBF2] px-4 py-2 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5D2CFF]"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-zinc-500 mb-1 uppercase tracking-wider">
-            Cor da Badge
-          </label>
-          <select
-            value={badgeColor}
-            onChange={(e) => setBadgeColor(e.target.value)}
-            className="w-full bg-[#FDFBF2] px-3 py-2 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#5D2CFF] h-[38px]"
-          >
-            <option value="bg-purple-900">Roxo Escuro</option>
-            <option value="bg-blue-600">Azul</option>
-            <option value="bg-amber-600">Laranja/Cookies</option>
-            <option value="bg-emerald-600">Verde Hortifruti</option>
-            <option value="bg-black">Preto</option>
-          </select>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-zinc-900 text-white text-xs font-bold py-3 rounded-xl hover:bg-[#5D2CFF] transition-colors uppercase tracking-wider mt-2"
-      >
-        Confirmar Cadastro
-      </button>
-    </form>
+    </div>
   );
 }
