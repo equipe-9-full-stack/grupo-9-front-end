@@ -12,8 +12,8 @@ import {
   Home as HomeIcon 
 } from "lucide-react";
 
-import Navbar from '../componentes/Navbar'; 
-import Carrossel from '../componentes/Carrossel';
+import Navbar from '../../src/components/Navbar';
+import Carrossel from '../../src/components/Carrossel';
 
 const categories = [
   { name: "Mercado", icon: ShoppingBag },
