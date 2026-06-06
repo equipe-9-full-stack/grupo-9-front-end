@@ -1,51 +1,51 @@
-interface Product {
-  id: number;
-  nome: string;
-  preco: number;
-  estoque: number;
-  imageUrl?: string;
-}
+import React from "react";
 
-interface Props {
-  product: Product;
-}
+export type Product = {
+  name: string;
+  price: string;
+  status: "DISPONÍVEL" | "INDISPONÍVEL";
+  img: string;
+};
 
-export default function CardProduto({ product }: Props) {
-  const disponivel = product.estoque > 0;
+export default function ProductCard({ name, price, status, img }: Product) {
+  const available = status === "DISPONÍVEL";
 
   return (
-    <div className="bg-white rounded-[45px] p-8 shadow-sm hover:shadow-xl transition-all flex flex-col items-center text-center group cursor-pointer border border-transparent hover:border-gray-100">
-      
-      {/* Imagem */}
-      <div className="h-36 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.nome}
-            className="max-h-full object-contain"
-          />
-        ) : (
-          <span className="text-5xl">📦</span>
-        )}
+    <div
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "45px",
+        padding: "32px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        cursor: "pointer",
+        transition: "box-shadow 0.2s",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.12)")}
+      onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)")}
+    >
+      <div style={{ height: "120px", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px" }}>
+        <img src={img} alt={name} style={{ maxHeight: "100%", objectFit: "contain" }} />
       </div>
 
-      {/* Nome */}
-      <h3 className="font-bold text-lg mb-2 text-gray-800">
-        {product.nome}
+      <h3 style={{ fontWeight: 700, fontSize: "15px", color: "#1a1a1a", marginBottom: "8px", lineHeight: 1.3 }}>
+        {name}
       </h3>
 
-      {/* Preço */}
-      <p className="font-black text-2xl mb-3">
-        R${product.preco.toFixed(2).replace(".", ",")}
+      <p style={{ fontWeight: 900, fontSize: "20px", color: "#1a1a1a", marginBottom: "8px" }}>
+        {price}
       </p>
 
-      {/* Status */}
-      <span
-        className={`text-[11px] font-black tracking-[0.2em] ${
-          disponivel ? "text-[#CCFF00]" : "text-red-500"
-        }`}
-      >
-        {disponivel ? "DISPONÍVEL" : "INDISPONÍVEL"}
+      <span style={{
+        fontSize: "11px",
+        fontWeight: 900,
+        letterSpacing: "0.15em",
+        color: available ? "#CCFF00" : "#ef4444",
+      }}>
+        {status}
       </span>
     </div>
   );
