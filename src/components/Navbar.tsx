@@ -6,10 +6,6 @@ export default function Navbar() {
   const [estaLogado, setEstaLogado] = useState(false);
 
   useEffect(() => {
-<<<<<<< HEAD:componentes/Navbar.tsx
-=======
-    // Procura o token para saber se exibe os botões de entrar ou os ícones de perfil
->>>>>>> dev:src/components/Navbar.tsx
     const token = localStorage.getItem("meu_token");
     if (token) {
       setEstaLogado(true);
@@ -19,29 +15,17 @@ export default function Navbar() {
   const fazerLogout = () => {
     localStorage.removeItem("meu_token");
     setEstaLogado(false);
-<<<<<<< HEAD:componentes/Navbar.tsx
     window.location.href = "/login"; 
-=======
-    window.location.href = "/login"; // Redireciona o usuário de volta pro login
->>>>>>> dev:src/components/Navbar.tsx
   };
 
   return (
     // Altura exata do Figma: h-[92px]
     <nav className="w-full h-[92px] bg-[#000000] px-8 md:px-16 flex items-center justify-between">
-<<<<<<< HEAD:componentes/Navbar.tsx
 
       {/* LOGO DA ESQUERDA */}
       <a href="/" className="flex items-center cursor-pointer transition hover:opacity-80">
         <img 
           src="/logo.png" 
-=======
-      
-      {/* LOGO DA ESQUERDA */}
-      <a href="/" className="flex items-center cursor-pointer transition hover:opacity-80">
-        <img 
-          src="/logo-branca.svg" 
->>>>>>> dev:src/components/Navbar.tsx
           alt="Stock.io Logo" 
           className="h-[48px] w-auto object-contain" 
         />
@@ -49,20 +33,15 @@ export default function Navbar() {
 
       {/* ÁREA DA DIREITA (Botões ou Ícones) */}
       <div className="flex items-center gap-8">
-<<<<<<< HEAD:componentes/Navbar.tsx
-
-=======
-        
->>>>>>> dev:src/components/Navbar.tsx
         {estaLogado ? (
           /* ----- USUÁRIO LOGADO ----- */
           <>
             {/* Ícone de Usuário (Hover Roxo) */}
-            <button className="text-white hover:text-[#6A38F3] transition-colors duration-300">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
-              </svg>
-            </button>
+            <a href="/perfil" className="text-white hover:text-[#6A38F3] transition-colors duration-300">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+    <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+  </svg>
+</a>
 
             {/* Ícone de Sair (Hover Vermelho) */}
             <button 
@@ -88,7 +67,7 @@ export default function Navbar() {
 
             {/* Botão CADASTRE-SE (Fundo Roxo -> Fundo Branco no Hover) */}
             <a 
-              href="/cadastrar" 
+              href="/cadastro" 
               className="bg-[#6A38F3] text-[#FFFFFF] hover:bg-[#FFFFFF] hover:text-[#6A38F3] px-8 py-3 rounded-full font-bold text-[15px] tracking-wider transition-all duration-300"
             >
               CADASTRE-SE

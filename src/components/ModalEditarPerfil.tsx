@@ -37,28 +37,33 @@ export default function ModalEditarPerfil({ isOpen, onClose }: ModalEditarPerfil
   const handleSalvarPerfil = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      const formData = new FormData();
-      formData.append('nome', nome);
-      formData.append('username', username);
-      formData.append('email', email);
-      if (selectedFile) {
-        formData.append('foto', selectedFile);
+      const token = localStorage.getItem('meu_token'); // ← corrigido
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (!user?.id) {
+        alert('Usuário não encontrado. Faça login novamente.');
+        return;
       }
 
-      const response = await fetch('http://localhost:3001/api/profile/update', {
+      const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
         method: 'PUT',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: formData
+        body: JSON.stringify({username, email, senha_hash: user.senha_hash })
       });
 
       if (!response.ok) {
         throw new Error('Erro ao atualizar perfil');
       }
 
-      alert('Perfil updated com sucesso!');
+      // Atualiza os dados no localStorage
+      localStorage.setItem('user', JSON.stringify({ ...user, nome, username, email }));
+
+      alert('Perfil atualizado com sucesso!');
+      if (onClose) onClose();
     } catch (error) {
       console.error(error);
       alert('Falha na conexão com o servidor.');
@@ -70,8 +75,13 @@ export default function ModalEditarPerfil({ isOpen, onClose }: ModalEditarPerfil
       return;
     }
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3001/api/profile/delete', {
+      const token = localStorage.getItem('meu_token'); // ← corrigido
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (!user?.id) return;
+
+      const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -82,7 +92,8 @@ export default function ModalEditarPerfil({ isOpen, onClose }: ModalEditarPerfil
         throw new Error('Erro ao deletar conta');
       }
 
-      localStorage.removeItem('token');
+      localStorage.removeItem('meu_token');
+      localStorage.removeItem('user');
       window.location.href = '/login';
     } catch (error) {
       console.error(error);
