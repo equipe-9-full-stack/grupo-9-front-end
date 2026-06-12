@@ -30,3 +30,20 @@ export default async function LojaPage({ params }: { params: { id: string } }) {
           <div className="flex justify-center mt-4 text-yellow-400 text-2xl">★★★★★</div>
         </div>
       </div>
+      <section className="p-8 max-w-7xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6">Produtos <span className="text-sm font-normal text-gray-600">melhor avaliados</span></h2>
+        
+        <Carrossel>
+          {melhoresAvaliados.map((produto) => (
+            <div key={produto.id} className="bg-white p-6 rounded-2xl shadow-sm flex flex-col items-center min-w-[200px]">
+              <img src={produto.imagem} alt={produto.nome} className="h-40 object-contain mb-4" />
+              <h3 className="font-bold text-lg">{produto.nome}</h3>
+              <p className="text-xl font-semibold">R${produto.preco.toFixed(2)}</p>
+              <span className={`text-xs font-bold mt-2 ${produto.disponivel ? 'text-green-600' : 'text-red-500'}`}>
+                {produto.disponivel ? 'DISPONÍVEL' : 'INDISPONÍVEL'}
+              </span>
+              <AddProduto produtoId={produto.id.toString()} /> 
+            </div>
+          ))}
+        </Carrossel>
+      </section>
