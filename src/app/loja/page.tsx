@@ -47,3 +47,25 @@ export default async function LojaPage({ params }: { params: { id: string } }) {
           ))}
         </Carrossel>
       </section>
+      <section className="bg-black text-white py-12 px-8 text-center">
+        <h2 className="text-3xl font-light mb-2">Reviews e Comentários</h2>
+        <div className="text-5xl font-bold mb-2">{notaGeral.toFixed(2)}</div>
+        <div className="text-yellow-400 text-2xl mb-6">★★★★★</div>
+
+        {avaliacoesDaLoja.length > 0 && (
+          <div className="max-w-3xl mx-auto bg-[#F9F6EE] text-black p-6 rounded-3xl flex items-center gap-6 text-left relative">
+            <img src={avaliacoesDaLoja[0].usuario?.foto || '/default-avatar.png'} alt={avaliacoesDaLoja[0].usuario?.nome} className="w-20 h-20 rounded-full object-cover" />
+            <div>
+              <div className="flex justify-between items-center">
+                <h4 className="font-bold text-lg">{avaliacoesDaLoja[0].usuario?.nome || 'Usuário'}</h4>
+                <span className="text-yellow-500">{'★'.repeat(avaliacoesDaLoja[0].nota)}</span>
+              </div>
+              <p className="text-gray-700 mt-2 text-sm">{avaliacoesDaLoja[0].comentario}</p>
+              
+              <Link href={`/loja/${params.id}/avaliacoes`} className="absolute bottom-4 right-6 text-purple-700 font-semibold hover:underline text-sm">
+                ver mais
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
