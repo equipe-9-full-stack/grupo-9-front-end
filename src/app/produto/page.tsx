@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import ModalEditarComentarios from "@/components/ModalEditarComentarios"; // <-- ADICIONE ESTA LINHA
 
 export default function ProdutoPage() {
   const [produto, setProduto] = useState<any>(null);
   const [carregando, setCarregando] = useState(true);
   const [imagemAtual, setImagemAtual] = useState("/brownieEmbalado.png"); 
   const [estaLogado, setEstaLogado] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Recupera o token de autenticação do localStorage
