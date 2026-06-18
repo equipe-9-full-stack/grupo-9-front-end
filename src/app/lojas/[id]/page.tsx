@@ -4,9 +4,22 @@ import Link from 'next/link';
 import Navbar from '../../../components/Navbar';
 import Carrossel from '../../../components/Carrossel';
 
+const Estrelas = () => (
+  <div className="flex justify-center items-center text-yellow-400">
+    <span>★★★★</span>
+    <span className="relative inline-block">
+      <span className="absolute left-0 top-0 overflow-hidden text-yellow-400" style={{ width: '50%' }}>
+        ★
+      </span>
+      <span className="opacity-0">★</span>
+    </span>
+  </div>
+);
+
 export default async function LojaPage() {
   const loja = {
     id: 1,
+    name: 'Rare Beauty',
     nome: 'Rare Beauty',
     descricao: 'beleza',
     imagem: '/shoot.png',
@@ -149,7 +162,6 @@ export default async function LojaPage() {
     <div className="min-h-screen bg-[#F8F4E9] text-black">
       <Navbar />
 
-      {/* Banner */}
       <section
         className="relative h-[650px] bg-cover bg-center"
         style={{
@@ -167,19 +179,13 @@ export default async function LojaPage() {
             <p className="text-4xl text-[#F8F4E9] mt-2">
               {loja.descricao}
             </p>
-
-            <div className="text-yellow-400 text-6xl mt-6">
-              ★★★★★
-            </div>
           </div>
         </div>
-
         <p className="absolute bottom-8 right-10 text-3xl text-[#F8F4E9] z-20">
           by {loja.criador}
         </p>
       </section>
 
-      {/* Produtos melhor avaliados */}
       <section className="max-w-[1500px] mx-auto py-14 px-8">
         <h2 className="text-5xl font-bold mb-10">
           Produtos
@@ -215,16 +221,13 @@ export default async function LojaPage() {
                     : 'text-red-600'
                 }`}
               >
-                {produto.disponivel
-                  ? 'DISPONÍVEL'
-                  : 'INDISPONÍVEL'}
+                {produto.disponivel ? 'DISPONÍVEL' : 'INDISPONÍVEL'}
               </span>
             </div>
           ))}
         </Carrossel>
       </section>
 
-      {/* Reviews */}
       <section className="bg-black py-20 px-8">
         <div className="max-w-[1500px] mx-auto">
           <div className="text-center text-white">
@@ -236,8 +239,8 @@ export default async function LojaPage() {
               {notaGeral}
             </div>
 
-            <div className="text-yellow-400 text-6xl mt-6">
-              ★★★★★
+            <div className="text-6xl mt-6">
+              <Estrelas />
             </div>
           </div>
 
@@ -285,7 +288,6 @@ export default async function LojaPage() {
         </div>
       </section>
 
-      {/* Produtos da loja */}
       <section className="max-w-[1500px] mx-auto py-16 px-8">
         <h2 className="text-5xl font-bold mb-10">
           Produtos
@@ -321,22 +323,20 @@ export default async function LojaPage() {
                     : 'text-red-600'
                 }`}
               >
-                {produto.disponivel
-                  ? 'DISPONÍVEL'
-                  : 'INDISPONÍVEL'}
+                {produto.disponivel ? 'DISPONÍVEL' : 'INDISPONÍVEL'}
               </span>
             </div>
           ))}
         </div>
 
         <div className="flex justify-center items-center gap-10 text-5xl mt-20">
-          <button>{'<'}</button>
+          <button>&lt;</button>
           <button className="font-bold">1</button>
           <button>2</button>
           <button>3</button>
           <button>4</button>
           <button>5</button>
-          <button>{'>'}</button>
+          <button>&gt;</button>
         </div>
       </section>
     </div>

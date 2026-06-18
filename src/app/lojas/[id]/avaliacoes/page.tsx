@@ -3,6 +3,18 @@ import Link from 'next/link';
 
 import Navbar from '../../../../components/Navbar';
 
+const EstrelasNotaGeral = () => (
+  <div className="flex justify-center items-center text-yellow-400">
+    <span>★★★★</span>
+    <span className="relative inline-block">
+      <span className="absolute left-0 top-0 overflow-hidden text-yellow-400" style={{ width: '50%' }}>
+        ★
+      </span>
+      <span className="opacity-0">★</span>
+    </span>
+  </div>
+);
+
 export default async function AvaliacoesPage({
   params,
 }: {
@@ -72,7 +84,6 @@ export default async function AvaliacoesPage({
     <div className="bg-black min-h-screen text-white">
       <Navbar />
 
-      {/* Banner */}
       <section
         className="relative h-[500px] bg-cover bg-center"
         style={{
@@ -82,7 +93,6 @@ export default async function AvaliacoesPage({
         <div className="absolute inset-0 bg-black/55" />
 
         <div className="relative z-10 w-full h-full">
-          {/* Conteúdo centralizado */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
             <h1 className="text-7xl md:text-8xl font-light text-[#F8F4E9]">
               {loja.nome}
@@ -93,21 +103,19 @@ export default async function AvaliacoesPage({
             </p>
           </div>
 
-          {/* Autor */}
           <p className="absolute right-10 bottom-8 text-2xl text-[#F8F4E9]">
             by {loja.criador}
           </p>
         </div>
       </section>
 
-      {/* Conteúdo */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <Link
             href={`/lojas/${params.id}`}
             className="text-gray-400 hover:text-white mb-8 inline-block"
           >
-            ← Voltar para a loja
+            &larr; Voltar para a loja
           </Link>
 
           <h1 className="text-6xl font-light text-center mb-6">
@@ -119,8 +127,8 @@ export default async function AvaliacoesPage({
               4.75
             </div>
 
-            <div className="text-yellow-400 text-6xl mt-4">
-              ★★★★☆
+            <div className="text-6xl mt-4">
+              <EstrelasNotaGeral />
             </div>
           </div>
 
