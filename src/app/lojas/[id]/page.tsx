@@ -4,17 +4,12 @@ import Link from 'next/link';
 import Navbar from '../../../components/Navbar';
 import Carrossel from '../../../components/Carrossel';
 
-export default async function LojaPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function LojaPage() {
   const loja = {
     id: 1,
     nome: 'Rare Beauty',
     descricao: 'beleza',
-    banner_url:
-      'https://images.squarespace-cdn.com/content/v1/5f74ef08d84f202aee6f7b4d/1653593121887-LH5XFLI4G50QWGX15LUB/Rare+Beauty+Campaign.jpeg',
+    imagem: '/shoot.png',
     criador: 'Selena Gomez',
   };
 
@@ -23,35 +18,35 @@ export default async function LojaPage({
       id: 1,
       nome: 'Bronzer',
       preco: 254.99,
-      imagem: '/images/bronzer.png',
+      imagem: '/bronzer.png',
       disponivel: true,
     },
     {
       id: 2,
       nome: 'Blush',
       preco: 199.99,
-      imagem: '/images/blush.png',
+      imagem: '/blush.png',
       disponivel: false,
     },
     {
       id: 3,
       nome: 'Perfume Rare',
       preco: 599.9,
-      imagem: '/images/perfume.png',
+      imagem: '/perfume.png',
       disponivel: true,
     },
     {
       id: 4,
       nome: 'Iluminador',
       preco: 249.9,
-      imagem: '/images/iluminador.png',
+      imagem: '/iluminador.png',
       disponivel: true,
     },
     {
       id: 5,
       nome: 'Mini Blush',
       preco: 99.99,
-      imagem: '/images/mini-blush.png',
+      imagem: '/mini-blush.png',
       disponivel: false,
     },
   ];
@@ -59,8 +54,8 @@ export default async function LojaPage({
   const comentarios = [
     {
       id: 1,
-      usuario: 'Sofia Figueiredo',
-      foto: '/images/avatar1.png',
+      usuario: 'Sophia Laforteza',
+      foto: '/sofia.png',
       nota: 5,
       comentario:
         'Adorei o produto. Funcionou muito na minha pele. Estou muito contente e com toda certeza irei comprar mais produtos da marca. Que orgulhoooooooo! Arrasaram.',
@@ -68,7 +63,7 @@ export default async function LojaPage({
     {
       id: 2,
       usuario: 'Selena Gomez',
-      foto: '/images/avatar2.png',
+      foto: '/selena.png',
       nota: 5,
       comentario:
         'Não é apenas maquiagem, é uma forma de expressão e autoestima.',
@@ -80,70 +75,70 @@ export default async function LojaPage({
       id: 1,
       nome: 'Lapis Labial',
       preco: 139.9,
-      imagem: '/images/lapis.png',
+      imagem: '/lapis.png',
       disponivel: true,
     },
     {
       id: 2,
-      nome: 'Comp. Samsung',
-      preco: 8549.99,
-      imagem: '/images/lip-oil.png',
+      nome: 'Creme Corporal',
+      preco: 299.99,
+      imagem: '/creme.png',
       disponivel: false,
     },
     {
       id: 3,
       nome: 'Contorno',
       preco: 289.9,
-      imagem: '/images/contorno.png',
+      imagem: '/contorno.png',
       disponivel: true,
     },
     {
       id: 4,
       nome: 'Iluminador',
       preco: 249.9,
-      imagem: '/images/iluminador.png',
+      imagem: '/iluminador.png',
       disponivel: true,
     },
     {
       id: 5,
       nome: 'Primer',
       preco: 139,
-      imagem: '/images/primer.png',
+      imagem: '/primer.png',
       disponivel: true,
     },
     {
       id: 6,
       nome: 'Mascara de C.',
       preco: 109.99,
-      imagem: '/images/mascara.png',
+      imagem: '/mascara.png',
       disponivel: true,
     },
     {
       id: 7,
       nome: 'Mini Blush',
       preco: 99.99,
-      imagem: '/images/mini-blush.png',
+      imagem: '/mini-blush.png',
       disponivel: false,
     },
     {
       id: 8,
       nome: 'Pó Compacto',
       preco: 119.5,
-      imagem: '/images/po.png',
+      imagem: '/po.png',
       disponivel: true,
     },
     {
       id: 9,
       nome: 'Perfume Rare',
       preco: 599.9,
-      imagem: '/images/perfume.png',
+      imagem: '/perfume.png',
       disponivel: true,
     },
     {
       id: 10,
       nome: 'Contorno',
       preco: 289.99,
-      imagem: '/images/contorno.png',
+      imagem: '/contorno.png',
       disponivel: false,
     },
   ];
@@ -154,35 +149,37 @@ export default async function LojaPage({
     <div className="min-h-screen bg-[#F8F4E9] text-black">
       <Navbar />
 
+      {/* Banner */}
       <section
-        className="relative h-[700px] bg-cover bg-center flex items-center"
+        className="relative h-[650px] bg-cover bg-center"
         style={{
-          backgroundImage: `url(${loja.banner_url})`,
+          backgroundImage: `url(${loja.imagem})`,
         }}
       >
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative z-10 w-full max-w-[1500px] mx-auto px-10">
-          <div className="max-w-2xl">
-            <h1 className="text-8xl md:text-9xl font-light text-[#F8F4E9]">
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-[110px] md:text-[130px] leading-none font-light text-[#F8F4E9]">
               {loja.nome}
             </h1>
 
-            <p className="text-3xl mt-2 text-[#F8F4E9]">
+            <p className="text-4xl text-[#F8F4E9] mt-2">
               {loja.descricao}
             </p>
 
-            <div className="text-yellow-400 text-5xl mt-6 tracking-wider">
+            <div className="text-yellow-400 text-6xl mt-6">
               ★★★★★
             </div>
           </div>
-
-          <p className="absolute right-10 bottom-0 text-3xl text-[#F8F4E9]">
-            by {loja.criador}
-          </p>
         </div>
+
+        <p className="absolute bottom-8 right-10 text-3xl text-[#F8F4E9] z-20">
+          by {loja.criador}
+        </p>
       </section>
 
+      {/* Produtos melhor avaliados */}
       <section className="max-w-[1500px] mx-auto py-14 px-8">
         <h2 className="text-5xl font-bold mb-10">
           Produtos
@@ -208,10 +205,7 @@ export default async function LojaPage({
               </h3>
 
               <p className="text-2xl font-medium w-full text-left">
-                R${' '}
-                {produto.preco.toLocaleString('pt-BR', {
-                  minimumFractionDigits: 2,
-                })}
+                R$ {produto.preco.toFixed(2)}
               </p>
 
               <span
@@ -230,6 +224,7 @@ export default async function LojaPage({
         </Carrossel>
       </section>
 
+      {/* Reviews */}
       <section className="bg-black py-20 px-8">
         <div className="max-w-[1500px] mx-auto">
           <div className="text-center text-white">
@@ -246,12 +241,21 @@ export default async function LojaPage({
             </div>
           </div>
 
-          <div className="mt-16">
+          <div className="flex justify-end mt-10">
+            <Link
+              href={`/lojas/${loja.id}/avaliacoes`}
+              className="text-purple-500 text-3xl hover:underline"
+            >
+              ver mais
+            </Link>
+          </div>
+
+          <div className="mt-8">
             <Carrossel>
               {comentarios.map((comentario) => (
                 <div
                   key={comentario.id}
-                  className="bg-[#F8F4E9] rounded-[40px] p-8 flex items-center gap-8 min-w-[1100px] relative"
+                  className="bg-[#F8F4E9] rounded-[40px] p-8 flex items-center gap-8 min-w-[1100px]"
                 >
                   <img
                     src={comentario.foto}
@@ -270,16 +274,9 @@ export default async function LojaPage({
                       </div>
                     </div>
 
-                    <p className="text-2xl text-gray-700 mt-4">
+                    <p className="text-2xl text-gray-600 mt-4">
                       {comentario.comentario}
                     </p>
-
-                    <Link
-                      href={`/loja/${params.id}/avaliacoes`}
-                      className="absolute bottom-8 right-8 text-purple-600 text-2xl hover:underline"
-                    >
-                      ver mais
-                    </Link>
                   </div>
                 </div>
               ))}
@@ -288,6 +285,7 @@ export default async function LojaPage({
         </div>
       </section>
 
+      {/* Produtos da loja */}
       <section className="max-w-[1500px] mx-auto py-16 px-8">
         <h2 className="text-5xl font-bold mb-10">
           Produtos
@@ -308,15 +306,12 @@ export default async function LojaPage({
                 className="h-52 object-contain mb-6"
               />
 
-              <h3 className="text-3xl font-semibold w-full text-left truncate">
+              <h3 className="text-3xl font-semibold w-full text-left">
                 {produto.nome}
               </h3>
 
               <p className="text-2xl w-full text-left">
-                R${' '}
-                {produto.preco.toLocaleString('pt-BR', {
-                  minimumFractionDigits: 2,
-                })}
+                R$ {produto.preco.toFixed(2)}
               </p>
 
               <span
@@ -334,7 +329,7 @@ export default async function LojaPage({
           ))}
         </div>
 
-        <div className="flex justify-center items-center gap-10 text-6xl mt-20">
+        <div className="flex justify-center items-center gap-10 text-5xl mt-20">
           <button>{'<'}</button>
           <button className="font-bold">1</button>
           <button>2</button>

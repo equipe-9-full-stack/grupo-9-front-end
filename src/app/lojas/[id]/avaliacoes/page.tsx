@@ -1,68 +1,162 @@
 import React from 'react';
 import Link from 'next/link';
-import api from '@/app/services/api';
+
+import Navbar from '../../../../components/Navbar';
 
 export default async function AvaliacoesPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const response = await api.get('/avaliacoes');
-  const todasAvaliacoes = response.data;
+  const loja = {
+    nome: 'Rare Beauty',
+    descricao: 'beleza',
+    imagem: '/shoot.png',
+    criador: 'Selena Gomez',
+  };
 
-  const avaliacoesDaLoja = todasAvaliacoes.filter(
-    (av: any) => av.loja_id === Number(params.id)
-  );
+  const avaliacoesDaLoja = [
+    {
+      id: 1,
+      nota: 5,
+      comentario:
+        'Adorei o produto. Funcionou muito na minha pele. Estou muito contente e com toda certeza irei comprar mais produtos da marca. Que orgulhoooooooo! Arrasaram.',
+      usuario: {
+        nome: 'Sophia Laforteza',
+        foto: '/sofia.png',
+      },
+    },
+    {
+      id: 2,
+      nota: 5,
+      comentario:
+        'Não é por nada não, mas essa garota arrasa.',
+      usuario: {
+        nome: 'Selena Gomez',
+        foto: '/selena.png',
+      },
+    },
+    {
+      id: 3,
+      nota: 5,
+      comentario:
+        'Não consigo descrever a sensação de passar uma base que realmente orna com sua pele. Sensacional! Parabéns aos envolvidos.',
+      usuario: {
+        nome: 'Pedro Freitas',
+        foto: '/noah.png',
+      },
+    },
+    {
+      id: 4,
+      nota: 4,
+      comentario:
+        'Eu gostei bastante! Mas acho que errei no tom.',
+      usuario: {
+        nome: 'Amberly Yang',
+        foto: '/yang.png',
+      },
+    },
+    {
+      id: 5,
+      nota: 5,
+      comentario:
+        'Esses produtos realmente transformaram minha rotina de beleza e elevaram minha confiança a novos patamares. O rímel não só dá volume e comprimento incríveis aos meus cílios, como também os levanta e curva, abrindo meu olhar e me fazendo sentir maravilhosa.',
+      usuario: {
+        nome: 'Bia Soull',
+        foto: '/bia.png',
+      },
+    },
+  ];
 
   return (
-    <div className="bg-black min-h-screen text-white p-8">
-      <div className="max-w-3xl mx-auto">
-        <Link
-          href={`/loja/${params.id}`}
-          className="text-sm text-gray-400 hover:text-white mb-6 inline-block"
-        >
-          ← Voltar para a loja
-        </Link>
+    <div className="bg-black min-h-screen text-white">
+      <Navbar />
 
-        <h1 className="text-3xl font-light text-center mb-12">
-          Todas as Avaliações
-        </h1>
+      {/* Banner */}
+      <section
+        className="relative h-[500px] bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${loja.imagem})`,
+        }}
+      >
+        <div className="absolute inset-0 bg-black/55" />
 
-        <div className="space-y-6">
-          {avaliacoesDaLoja.map((av: any) => (
-            <div
-              key={av.id}
-              className="bg-[#F9F6EE] text-black p-6 rounded-3xl flex items-start gap-6 relative"
-            >
-              <img
-                src={av.usuario?.foto || '/default-avatar.png'}
-                alt={av.usuario?.nome || 'Usuário'}
-                className="w-20 h-20 rounded-full object-cover shrink-0"
-              />
+        <div className="relative z-10 w-full h-full">
+          {/* Conteúdo centralizado */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <h1 className="text-7xl md:text-8xl font-light text-[#F8F4E9]">
+              {loja.nome}
+            </h1>
 
-              <div className="w-full">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-bold text-lg">
-                    {av.usuario?.nome || 'Usuário'}
-                  </h3>
+            <p className="text-3xl mt-2 text-[#F8F4E9]">
+              {loja.descricao}
+            </p>
+          </div>
 
-                  <span className="text-yellow-500 text-xl">
-                    {'★'.repeat(av.nota)}
-                  </span>
-                </div>
-
-                <p className="text-gray-700 mt-2 text-sm leading-relaxed">
-                  {av.comentario}
-                </p>
-
-                <button className="text-purple-700 font-semibold text-xs mt-2 block ml-auto hover:underline">
-                  ver mais
-                </button>
-              </div>
-            </div>
-          ))}
+          {/* Autor */}
+          <p className="absolute right-10 bottom-8 text-2xl text-[#F8F4E9]">
+            by {loja.criador}
+          </p>
         </div>
-      </div>
+      </section>
+
+      {/* Conteúdo */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <Link
+            href={`/lojas/${params.id}`}
+            className="text-gray-400 hover:text-white mb-8 inline-block"
+          >
+            ← Voltar para a loja
+          </Link>
+
+          <h1 className="text-6xl font-light text-center mb-6">
+            Reviews e Comentários
+          </h1>
+
+          <div className="text-center mb-16">
+            <div className="text-8xl font-light">
+              4.75
+            </div>
+
+            <div className="text-yellow-400 text-6xl mt-4">
+              ★★★★☆
+            </div>
+          </div>
+
+          <div className="space-y-10">
+            {avaliacoesDaLoja.map((av) => (
+              <div
+                key={av.id}
+                className="bg-[#F8F4E9] text-black rounded-[40px] p-8 flex items-start gap-8"
+              >
+                <img
+                  src={av.usuario.foto}
+                  alt={av.usuario.nome}
+                  className="w-40 h-40 rounded-full object-cover shrink-0"
+                />
+
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-4xl font-medium">
+                      {av.usuario.nome}
+                    </h2>
+
+                    <div className="text-yellow-400 text-5xl">
+                      {'★'.repeat(av.nota)}
+                      {'☆'.repeat(5 - av.nota)}
+                    </div>
+                  </div>
+
+                  <p className="text-2xl text-gray-700 mt-4 leading-relaxed">
+                    {av.comentario}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
