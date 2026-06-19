@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link"; // 1. ADICIONAMOS O IMPORT DO LINK AQUI!
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -102,9 +103,10 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* 2. MUDAMOS O <a href="#"> PARA O COMPONENTE <Link href="/cadastro"> */}
           <p className="text-center text-sm text-gray-300 mt-8">
             Não possui uma conta?{' '}
-            <a href="#" className="font-bold text-[#6A38F3] transition hover:text-[#582cd1]">Cadastre-se</a>
+            <Link href="/cadastro" className="font-bold text-[#6A38F3] transition hover:text-[#582cd1]">Cadastre-se</Link>
           </p>
         </div>
       </div>
