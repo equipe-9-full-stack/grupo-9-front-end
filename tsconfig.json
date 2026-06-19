@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@hooks/*": ["./hooks/*"]
     }
   },
   "include": [
@@ -29,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/loja/avaliacoes"  ],
   "exclude": ["node_modules"]
 }

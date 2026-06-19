@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import ModalEditarPerfil from '@/componentes/ModalEditarPerfil';
-import ModalAlterarSenha from '@/componentes/ModalAlterarSenha';
+import ModalEditarPerfil from '@/src/components/ModalEditarPerfil';
+import ModalAlterarSenha from '@/src/components/ModalAlterarSenha';
 
 export default function ProfilePage() {
   const [modalSenhaAberto, setModalSenhaAberto] = useState(false);
