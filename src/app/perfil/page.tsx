@@ -6,7 +6,7 @@ import ModalEditarPerfil from '@/components/ModalEditarPerfil';
 import ModalAlterarSenha from '@/components/ModalAlterarSenha';
 import CardProduto from '@/components/CardProduto';
 import ModalAdicionarLoja from '@/components/ModalAdicionarLoja';
-
+import Link from 'next/link'; 
 const MOCK_PRODUCTS = [
   { id: 1, nome: 'Bronzer',      preco: 254.99, estoque: 10 },
   { id: 2, nome: 'Blush',        preco: 199.99, estoque: 0  },
@@ -145,48 +145,49 @@ export default function PerfilPage() {
 
         {/* ── Lojas ── */}
         <div className="mt-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-black text-[#1a1a1a]" style={{ fontSize: '24px' }}>Lojas</h2>
-            <button
-              onClick={() => setModalLojaAberto(true)}
-              className="w-10 h-10 rounded-full bg-[#6A38F3] text-white flex items-center justify-center hover:bg-[#5733C9] transition cursor-pointer"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-            </button>
-          </div>
+  <div className="flex items-center justify-between mb-4">
+    <h2 className="font-black text-[#1a1a1a]" style={{ fontSize: '24px' }}>Lojas</h2>
+    <button
+      onClick={() => setModalLojaAberto(true)}
+      className="w-10 h-10 rounded-full bg-[#6A38F3] text-white flex items-center justify-center hover:bg-[#5733C9] transition cursor-pointer"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </button>
+  </div>
 
-          {loadingLojas ? (
-            <p className="text-gray-400 text-sm">Carregando lojas...</p>
-          ) : lojas.length === 0 ? (
-            <p className="text-gray-400 text-sm">Nenhuma loja cadastrada ainda.</p>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {lojas.map((loja) => (
-                <div
-                  key={loja.id}
-                  className="bg-white flex items-center justify-between shadow-sm"
-                  style={{ borderRadius: '16px', padding: '14px 20px', maxWidth: '460px' }}
-                >
-                  <div>
-                    <p className="font-black text-[#1a1a1a]" style={{ fontSize: '20px' }}>{loja.nome}</p>
-                    <p className="font-bold text-[#6A38F3]" style={{ fontSize: '15px' }}>{loja.descricao}</p>
-                  </div>
-                  <div
-                    className="rounded-full bg-[#f5eaea] flex flex-col items-center justify-center flex-shrink-0"
-                    style={{ width: '80px', height: '80px' }}
-                  >
-                    <p className="text-center font-semibold text-[#8B1A4A]" style={{ fontSize: '10px', lineHeight: 1.3 }}>
-                      {loja.nome}
-                    </p>
-                  </div>
-                </div>
-              ))}
+  {loadingLojas ? (
+    <p className="text-gray-400 text-sm">Carregando lojas...</p>
+  ) : lojas.length === 0 ? (
+    <p className="text-gray-400 text-sm">Nenhuma loja cadastrada ainda.</p>
+  ) : (
+    <div className="flex flex-col gap-3">
+      {lojas.map((loja) => (
+        <Link href={`/lojas/${loja.id}`} key={loja.id}>  {/* ← Link aqui */}
+          <div
+            className="bg-white flex items-center justify-between shadow-sm hover:shadow-md transition cursor-pointer"
+            style={{ borderRadius: '16px', padding: '14px 20px', maxWidth: '460px' }}
+          >
+            <div>
+              <p className="font-black text-[#1a1a1a]" style={{ fontSize: '20px' }}>{loja.nome}</p>
+              <p className="font-bold text-[#6A38F3]" style={{ fontSize: '15px' }}>{loja.descricao}</p>
             </div>
-          )}
-        </div>
+            <div
+              className="rounded-full bg-[#f5eaea] flex flex-col items-center justify-center flex-shrink-0"
+              style={{ width: '80px', height: '80px' }}
+            >
+              <p className="text-center font-semibold text-[#8B1A4A]" style={{ fontSize: '10px', lineHeight: 1.3 }}>
+                {loja.nome}
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  )}
+</div>
 
         {/* ── Avaliações ── */}
         <div className="mt-10">
