@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   ShoppingBag,
   PlusCircle,
@@ -22,13 +23,18 @@ const categories = [
   { name: "Farmácia", icon: PlusCircle },
   { name: "Beleza", icon: Sparkles },
   { name: "Moda", icon: Shirt },
-  { name: "Eletrônicos", icon: Laptop },
+   {
+    name: "Eletrônicos",
+    icon: Laptop,
+    rota: "/tela_itens_especificos"
+  },
   { name: "Jogos", icon: Gamepad2 },
   { name: "Brinquedos", icon: Baby },
   { name: "Casa", icon: HomeIcon },
 ];
 
 export default function ProfilePage() {
+  const router = useRouter();
   const [melhoresAvaliados, setMelhoresAvaliados] = useState<any[]>([]);
   const [maisBaratos, setMaisBaratos] = useState<any[]>([]);
   const [recemAdicionados, setRecemAdicionados] = useState<any[]>([]);
@@ -138,9 +144,30 @@ export default function ProfilePage() {
               const Icon = cat.icon;
               return (
                 <div
-                  key={index}
-                  className="flex-shrink-0 w-[140px] h-[140px] flex flex-col items-center justify-center bg-[#F8F8F8] rounded-[32px] p-5 snap-start shadow-sm"
-                >
+  key={index}
+  onClick={() => {
+    if (cat.rota) {
+      router.push(cat.rota);
+    }
+  }}
+  className="
+    flex-shrink-0
+    w-[140px]
+    h-[140px]
+    flex
+    flex-col
+    items-center
+    justify-center
+    bg-[#F8F8F8]
+    rounded-[32px]
+    p-5
+    snap-start
+    shadow-sm
+    cursor-pointer
+    hover:scale-[1.03]
+    transition-all
+  "
+>
                   <div className="text-[#6B39FF] mb-3">
                     <Icon size={38} strokeWidth={1.8} />
                   </div>
