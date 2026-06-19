@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   ShoppingBag,
   PlusCircle,
@@ -35,6 +36,15 @@ export default function ProfilePage() {
   const [lojas, setLojas] = useState<any[]>([]);
   const [filtrosAbertos, setFiltrosAbertos] = useState(false);
   const [termoPesquisa, setTermoPesquisa] = useState('');
+  const [categoriasSelecionadas, setCategoriasSelecionadas] = useState<string[]>([]);
+
+  const toggleCategoria = (categoria: string) => {
+    setCategoriasSelecionadas((prev) =>
+      prev.includes(categoria)
+        ? prev.filter((c) => c !== categoria)
+        : [...prev, categoria]
+    );
+  };
 
   useEffect(() => {
     fetch('http://localhost:3000/lojas')
@@ -47,6 +57,7 @@ export default function ProfilePage() {
               id: loja.id,
               nome: loja.nome,
               subtitulo: loja.categoria ?? "",
+              categoria: loja.categoria ?? "",
               imagem: loja.imagem ?? ""
             }));
           setLojas(lojasAdaptadas);
@@ -70,15 +81,28 @@ export default function ProfilePage() {
               subtitulo: `R$ ${prod.preco}`,
               imagem: prod.imagem ?? "",
               status: prod.disponivel ? "DISPONÍVEL" : "INDISPONÍVEL",
-              logoLoja: prod.lojaLogo ?? ""
+              logoLoja: prod.lojaLogo ?? "",
+              avaliacao: prod.avaliacao ?? 0,
+              preco: prod.preco ?? 0,
+              dataCriacao: prod.dataCriacao
             }));
 
-          setMelhoresAvaliados(produtosAdaptados);
+          setMelhoresAvaliados(
+            [...produtosAdaptados].sort(
+              (a: any, b: any) => (b.avaliacao ?? 0) - (a.avaliacao ?? 0)
+            )
+          );
           setMaisBaratos(
-            [...produtosAdaptados].sort((a, b) => a.id - b.id)
+            [...produtosAdaptados].sort(
+              (a, b) => a.preco - b.preco
+            )
           );
           setRecemAdicionados(
-            [...produtosAdaptados].reverse()
+            [...produtosAdaptados].sort(
+              (a, b) =>
+                new Date(b.dataCriacao).getTime() -
+                new Date(a.dataCriacao).getTime()
+            )
           );
         } else {
           setMelhoresAvaliados([]);
@@ -92,6 +116,18 @@ export default function ProfilePage() {
         setRecemAdicionados([]);
       });
   }, []);
+
+  const lojasFiltradas = lojas.filter((loja) => {
+    const categoriaValida =
+      categoriasSelecionadas.length === 0 ||
+      categoriasSelecionadas.includes(loja.categoria);
+
+    const pesquisaValida =
+      termoPesquisa.trim() === '' ||
+      loja.nome.toLowerCase().includes(termoPesquisa.toLowerCase());
+
+    return categoriaValida && pesquisaValida;
+  });
 
   return (
     <div className="min-h-screen bg-[#F4F1E6] text-zinc-800 font-sans antialiased">
@@ -155,9 +191,21 @@ export default function ProfilePage() {
 
         <div className="flex flex-col gap-24 w-full">
           <div className="w-full">
-            <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none mb-6">
-              Produtos <span className="text-lg font-normal text-purple-600 ml-2">melhores avaliados</span>
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none">
+                Produtos
+                <span className="text-lg font-normal text-purple-600 ml-2">
+                  melhores avaliados
+                </span>
+              </h2>
+
+              <Link
+                href="/produtos/melhores-avaliados"
+                className="text-purple-600 font-medium hover:underline"
+              >
+                Ver todos
+              </Link>
+            </div>
             <Carrossel
               titulo=""
               itens={melhoresAvaliados}
@@ -166,9 +214,21 @@ export default function ProfilePage() {
           </div>
 
           <div className="w-full">
-            <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none mb-6">
-              Produtos <span className="text-lg font-normal text-purple-600 ml-2">mais baratos</span>
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none">
+                Produtos
+                <span className="text-lg font-normal text-purple-600 ml-2">
+                  mais baratos
+                </span>
+              </h2>
+
+              <Link
+                href="/produtos/mais-baratos"
+                className="text-purple-600 font-medium hover:underline"
+              >
+                Ver todos
+              </Link>
+            </div>
             <Carrossel
               titulo=""
               itens={maisBaratos}
@@ -177,9 +237,21 @@ export default function ProfilePage() {
           </div>
 
           <div className="w-full">
-            <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none mb-6">
-              Produtos <span className="text-lg font-normal text-purple-600 ml-2">recém adicionados</span>
-            </h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-[32px] font-medium tracking-tight text-zinc-900 leading-none">
+                Produtos
+                <span className="text-lg font-normal text-purple-600 ml-2">
+                  recém adicionados
+                </span>
+              </h2>
+
+              <Link
+                href="/produtos/recem-adicionados"
+                className="text-purple-600 font-medium hover:underline"
+              >
+                Ver todos
+              </Link>
+            </div>
             <Carrossel
               titulo=""
               itens={recemAdicionados}
@@ -214,6 +286,8 @@ export default function ProfilePage() {
                           <label key={index} className="flex items-center gap-4 cursor-pointer group w-full">
                             <input
                               type="checkbox"
+                              checked={categoriasSelecionadas.includes(cat.name)}
+                              onChange={() => toggleCategoria(cat.name)}
                               className="w-6 h-6 rounded-[8px] border-2 border-[#6B39FF] checked:bg-[#6B39FF] appearance-none checked:after:content-['✓'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center checked:after:text-xs checked:after:font-bold bg-white transition-all cursor-pointer flex-shrink-0"
                             />
                             <span className="text-[#6B39FF] text-lg font-normal group-hover:text-purple-900 transition-colors whitespace-nowrap">
@@ -233,7 +307,7 @@ export default function ProfilePage() {
 
             <Carrossel
               titulo=""
-              itens={lojas}
+              itens={lojasFiltradas}
               tipo="loja"
             />
           </div>
