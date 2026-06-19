@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import Navbar from "@/src/components/Navbar";
-import CardProduto from "@/src/components/CardProduto";
+import Navbar from "@/components/Navbar";
+import CardProduto from "@/components/CardProduto";
 
-const ALL_PRODUCTS = [
+const DEFAULT_PRODUCTS = [
   { name: "Notebook Lenovo IdeaPad Slim 3", price: "R$3.899,99", status: "DISPONÍVEL"   as const, img: "/NotebookLenovo.jpg" },
   { name: "Samsung Galaxy Book4",           price: "R$8.549,99", status: "INDISPONÍVEL" as const, img: "/GalaxyBook.png" },
   { name: "Apple iPhone 15",               price: "R$4.769,10", status: "DISPONÍVEL"   as const, img: "/Iphone15.jpeg" },
@@ -23,7 +23,9 @@ const ALL_PRODUCTS = [
   { name: "Xbox Series S",                 price: "R$1.499,99", status: "DISPONÍVEL"   as const, img: "/XboxSeriesS.jpeg" },
 ];
 
-const LOJAS = [
+let ALL_PRODUCTS = DEFAULT_PRODUCTS;
+
+const DEFAULT_LOJAS = [
   { name: "abtec",         categoria: "eletrônicos", img: "/lojaAbtec.png" },
   { name: "Repiit",        categoria: "eletrônicos", img: "/lojaRepiit.png" },
   { name: "Bersay",        categoria: "eletrônicos", img: "/lojaBersay.png" },
@@ -33,6 +35,8 @@ const LOJAS = [
    { name: "Oh My!",         categoria: "eletrônicos", img: "/lojaAbtec.png" },
    { name: "Lexut",        categoria: "eletrônicos", img: "/lojaRepiit.png" },
 ];
+
+let LOJAS = DEFAULT_LOJAS;
 
 const MAIS_POPULARES    = ALL_PRODUCTS.slice(0, 5);
 const RECEM_ADICIONADOS = ALL_PRODUCTS.slice(-5);
@@ -123,6 +127,45 @@ export default function StockIOHome() {
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(ALL_PRODUCTS.length / PER_PAGE);
   const paginated  = ALL_PRODUCTS.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/produtos')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const produtosAdaptados = data
+            .filter((prod: any) => prod)
+            .map((prod: any) => ({
+              name: prod.nome,
+              price: `R$ ${prod.preco}`,
+              img: prod.imagem ?? "",
+              status: (prod.disponivel ? "DISPONÍVEL" : "INDISPONÍVEL") as "DISPONÍVEL" | "INDISPONÍVEL",
+            }));
+          ALL_PRODUCTS = produtosAdaptados as typeof DEFAULT_PRODUCTS;
+        }
+      })
+      .catch(() => {
+        ALL_PRODUCTS = DEFAULT_PRODUCTS;
+      });
+
+    fetch('http://localhost:3000/lojas')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const lojasAdaptadas = data
+            .filter((loja: any) => loja)
+            .map((loja: any) => ({
+              name: loja.nome,
+              categoria: loja.categoria ?? "eletrônicos",
+              img: loja.imagem ?? "/lojaAbtec.png",
+            }));
+          LOJAS = lojasAdaptadas as typeof DEFAULT_LOJAS;
+        }
+      })
+      .catch(() => {
+        LOJAS = DEFAULT_LOJAS;
+      });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F9F7E8] font-sans text-black pb-20">
